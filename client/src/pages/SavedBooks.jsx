@@ -8,18 +8,18 @@ import {
 
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
-import { REMOVE_BOOK } from '../utils/mutations';
+import { DELETE_BOOK } from '../utils/mutations';
 import { removeBookId } from '../utils/localStorage';
 
 import Auth from '../utils/auth';
 
 const SavedBooks = () => {
   const { loading, data } = useQuery(QUERY_ME);
-  const [removeBook, { error }] = useMutation(REMOVE_BOOK);
+  const [ deleteBook] = useMutation(DELETE_BOOK);
 
   const userData = data?.me || {};
 
-  // create function that accepts the book's mongo _id value as param and deletes the book from the database
+  // Mongo delete
   const handleDeleteBook = async (bookId) => {
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -29,26 +29,26 @@ const SavedBooks = () => {
     }
 
     try {
-      const { data } = await removeBook({
+      await deleteBook({
         variables: { bookId },
-      });
-
-      // upon success, remove book's id from localStorage
-      removeBookId(bookId);
+      }).then(data => {
+        // upon success, remove book's id from localStorage
+        if (data) removeBookId(bookId);}) ;
     } catch (err) {
       console.error(err);
     }
   };
 
   if (loading) {
-    return <h2>LOADING...</h2>;
+    return <h2>Loading...</h2>;
   }
 
   return (
     <>
       <div fluid className="text-light bg-dark p-5">
         <Container>
-          <h1>Viewing {userData.username}'s books!</h1>
+          <h1>Book List for {userData.username}</h1>
+          <h1>Viewing saved books!</h1>
         </Container>
       </div>
       <Container>
