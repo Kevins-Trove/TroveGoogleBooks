@@ -43,7 +43,7 @@ Features
 
 Check out my work, feel free to adapt it to your needs or reach out to me directly.
 
-[Deployed App](https://gentle-island-47908-de4c4ed7e6a6.herokuapp.com/)
+[Deployed App](https://trove-google-books-42d4cdfcac7f.herokuapp.com/saved)
 
 [See the repository](https://github.com/Kevins-Trove/TroveGoogleBooks)
 
